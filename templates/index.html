@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentiment Analysis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-3xl font-bold mb-4">Sentiment Analysis</h1>
+        <div class="mb-4">
+            <textarea id="text-input" class="w-full p-2 border rounded" rows="4" placeholder="Enter text here..."></textarea>
+        </div>
+        <button id="analyze-button" class="bg-blue-500 text-white px-4 py-2 rounded">Analyze</button>
+        <div id="result" class="mt-4 text-xl"></div>
+    </div>
+
+    <script>
+        document.getElementById('analyze-button').addEventListener('click', async () => {
+            const text = document.getElementById('text-input').value;
+            const response = await fetch('/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ text }),
+            });
+            const data = await response.json();
+            document.getElementById('result').textContent = `Sentiment: ${data.sentiment}`;
+        });
+    </script>
+</body>
+</html>
